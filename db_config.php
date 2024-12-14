@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';      // Servidor de la base de datos
-$db = 'nombre_de_tu_bd';  // Nombre de la base de datos
-$user = 'root';           // Usuario (ajusta según tu configuración)
-$pass = '';               // Contraseña (ajusta según tu configuración)
+$host = 'database';      // Servidor de la base de datos
+$db = 'meowpic';  // Nombre de la base de datos
+$user = 'admin';           // Usuario (ajusta según tu configuración)
+$pass = 'meowPic';               // Contraseña (ajusta según tu configuración)
 $charset = 'utf8mb4';     // Conjunto de caracteres
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
