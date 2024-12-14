@@ -2,54 +2,58 @@
 session_start();
 require 'db_config.php';
 
-// Comprobar si hay usuarios registrados
-$sql_check_users = 'SELECT COUNT(*) FROM usuarios';
-$stmt = $pdo->query($sql_check_users);
-$users_exist = $stmt->fetchColumn() > 0;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $sql = 'SELECT * FROM usuarios WHERE email = :email';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':email' => $email]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        header('Location: index.php');
-        exit;
-    } else {
-        $error = 'Credenciales inválidas.';
-    }
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
 }
+
+$user_id = $_SESSION['user_id'];
+
+// Obtener un gatito aleatorio
+$sql_random = 'SELECT * FROM gatitos ORDER BY RAND() LIMIT 1';
+$stmt_random = $pdo->query($sql_random);
+$gato_random = $stmt_random->fetch();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>MeowPic</title>
 </head>
 <body>
-    <h1>Iniciar Sesión</h1>
+    <h1>MeowPic</h1>
+    <nav>
+        <a href="index.php?action=add">Añadir Gatito</a> |
+        <a href="index.php?action=search">Buscar Gatito</a> |
+        <a href="index.php?action=edit">Editar Mis Gatitos</a> |
+        <a href="logout.php">Cerrar Sesión</a>
+    </nav>
 
-    <?php if (!$users_exist): ?>
-        <p>No hay usuarios registrados. Por favor, <a href="register.php">registra un usuario</a> para continuar.</p>
+    <h2>Gatito Aleatorio</h2>
+    <?php if ($gato_random): ?>
+        <p>
+            <strong>Nombre:</strong> <?php echo htmlspecialchars($gato_random['nombre']); ?><br>
+            <strong>Raza:</strong> <?php echo htmlspecialchars($gato_random['raza']); ?><br>
+            <img src="<?php echo htmlspecialchars($gato_random['foto']); ?>" alt="Gatito" width="150">
+        </p>
     <?php else: ?>
-        <?php if (isset($error)): ?>
-            <p style="color: red;"><?php echo $error; ?></p>
-        <?php endif; ?>
-
-        <form method="POST">
-            Email: <input type="email" name="email" required><br>
-            Contraseña: <input type="password" name="password" required><br>
-            <button type="submit">Iniciar Sesión</button>
-        </form>
+        <p>No hay gatitos registrados aún.</p>
     <?php endif; ?>
 
-    <p><a href="register.php">¿No tienes cuenta? Regístrate aquí</a></p>
+    <?php
+    if (isset($_GET['action'])) {
+        switch ($_GET['action']) {
+            case 'add':
+                include 'add_gatitos.php';
+                break;
+            case 'search':
+                include 'search_gatitos.php';
+                break;
+            case 'edit':
+                include 'edit_gatitos.php';
+                break;
+        }
+    }
+    ?>
 </body>
 </html>

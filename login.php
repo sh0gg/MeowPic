@@ -16,27 +16,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: index.php');
         exit;
     } else {
-        $error = 'Credenciales inválidas';
+        $error = 'Credenciales incorrectas.';
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeowPic - Login</title>
+    <title>Iniciar Sesión</title>
 </head>
 <body>
     <h1>Iniciar Sesión</h1>
     <?php if (isset($error)): ?>
-        <p style="color:red;"><?php echo $error; ?></p>
+        <p style="color: red;"><?php echo $error; ?></p>
     <?php endif; ?>
     <form method="POST">
         Email: <input type="email" name="email" required><br>
         Contraseña: <input type="password" name="password" required><br>
         <button type="submit">Iniciar Sesión</button>
     </form>
+    <p><a href="register.php">Registrarse</a></p>
 </body>
 </html>
