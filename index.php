@@ -34,6 +34,12 @@ if (isset($_POST['random_gato'])) {
 <body>
     <h1>Bienvenido a MeowPic</h1>
 
+    <!-- Navegación -->
+    <nav>
+        <a href="register.php">Registrar Nuevo Usuario</a> | 
+        <a href="logout.php">Cerrar Sesión</a>
+    </nav>
+
     <!-- Botón para añadir gatos -->
     <form action="add_gatitos.php" method="GET" style="display:inline;">
         <button type="submit">Añadir Gato</button>
