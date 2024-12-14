@@ -1,0 +1,17 @@
+name: meowpic-app
+recipe: lamp
+config:
+  php: '8.0'
+services:
+  database:
+    type: mysql:5.7
+    portforward: true
+  phpmyadmin:
+    type: phpmyadmin
+    hosts:
+      - database
+tooling:
+  import-db:
+    service: database
+    description: Importa una base de datos
+    cmd: mysql -u root -ppassword database
