@@ -1,9 +1,9 @@
 <?php
 session_start();
-require 'db_config.php';
+require '/cfg/db_config.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: /functions/login.php');
     exit;
 }
 
@@ -67,13 +67,13 @@ $gato_random = $stmt_random->fetch();
     if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             case 'add':
-                include 'add_gatitos.php';
+                include '/controllers/add_gatitos.php';
                 break;
             case 'search':
-                include 'search_gatitos.php';
+                include '/controllers/search_gatitos.php';
                 break;
             case 'edit':
-                include 'edit_gatitos.php';
+                include '/controllers/edit_gatitos.php';
                 break;
         }
     }

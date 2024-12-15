@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    include 'db_config.php';
+    include '/cfg/db_config.php';
 
     // Obtener los datos del formulario
     $nombre = $_POST['nombre'];

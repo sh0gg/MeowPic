@@ -1,5 +1,5 @@
 <?php
-require 'db_config.php';
+require '/cfg/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'];
@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':nombre' => $nombre, ':email' => $email, ':password' => $password]);
 
-    header('Location: login.php');
+    header('Location: /functions/login.php');
     exit;
 }
 ?>

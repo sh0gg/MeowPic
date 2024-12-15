@@ -1,5 +1,5 @@
 <?php
-require 'db_config.php';
+require '/cfg/db_config.php';
 
 $gatito_id = 1;
 
