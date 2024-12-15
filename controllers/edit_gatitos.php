@@ -1,5 +1,5 @@
 <?php
-require '/cfg/db_config.php';
+require 'cfg/db_config.php';
 
 $usuario_id = $_SESSION['user_id']; // Obtener el ID del usuario autenticado
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '/cfg/db_config.php';
+require 'cfg/db_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="styles/style.css">
     <title>Iniciar Sesión</title>
 </head>
 <body>
@@ -36,6 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Contraseña: <input type="password" name="password" required><br>
         <button type="submit">Iniciar Sesión</button>
     </form>
-    <p><a href="/functions/register.php">Registrarse</a></p>
+    <p><a href="register.php">Registrarse</a></p>
 </body>
 </html>

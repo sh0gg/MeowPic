@@ -1,5 +1,5 @@
 <?php
-require '/cfg/config.php';
+require 'cfg/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'];
@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':nombre' => $nombre, ':email' => $email, ':password' => $password]);
 
-    header('Location: /functions/login.php');
+    header('Location: login.php');
     exit;
 }
 ?>
@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="styles/style.css">
     <title>Registrar Usuario</title>
 </head>
 <body>

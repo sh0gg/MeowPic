@@ -1,9 +1,9 @@
 <?php
 session_start();
-require '/cfg/db_config.php';
+require 'cfg/db_config.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /functions/login.php');
+    header('Location: login.php');
     exit;
 }
 
@@ -35,10 +35,11 @@ $gato_random = $stmt_random->fetch();
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="styles/style.css">
     <title>MeowPic</title>
 </head>
 <body>
-    <h1>MeowPic</h1>
+    <h1><a href="index.php">MeowPic</a></h1>
     <nav>
         <a href="index.php?action=add">Añadir Gatito</a> |
         <a href="index.php?action=search">Buscar Gatito</a> |
@@ -67,13 +68,13 @@ $gato_random = $stmt_random->fetch();
     if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             case 'add':
-                include '/controllers/add_gatitos.php';
+                include 'controllers/add_gatitos.php';
                 break;
             case 'search':
-                include '/controllers/search_gatitos.php';
+                include 'controllers/search_gatitos.php';
                 break;
             case 'edit':
-                include '/controllers/edit_gatitos.php';
+                include 'controllers/edit_gatitos.php';
                 break;
         }
     }
