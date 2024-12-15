@@ -22,21 +22,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
     <title>Iniciar Sesión</title>
 </head>
 <body>
-    <h1>Iniciar Sesión</h1>
-    <?php if (isset($error)): ?>
-        <p style="color: red;"><?php echo $error; ?></p>
-    <?php endif; ?>
-    <form method="POST">
-        Email: <input type="email" name="email" required><br>
-        Contraseña: <input type="password" name="password" required><br>
-        <button type="submit">Iniciar Sesión</button>
-    </form>
-    <p><a href="register.php">Registrarse</a></p>
+    <header>
+        <h1>Iniciar Sesión</h1>
+    </header>
+    <main>
+        <?php if (isset($error)): ?>
+            <div class="message error">
+                <?php echo $error; ?>
+            </div>
+        <?php endif; ?>
+        <form method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <p>¿No tienes una cuenta? <a href="register.php" class="button">Registrarse</a></p>
+    </main>
 </body>
 </html>

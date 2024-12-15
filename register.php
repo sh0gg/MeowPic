@@ -16,18 +16,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
     <title>Registrar Usuario</title>
 </head>
 <body>
-    <h1>Registrar Usuario</h1>
-    <form method="POST">
-        Nombre: <input type="text" name="nombre" required><br>
-        Email: <input type="email" name="email" required><br>
-        Contraseña: <input type="password" name="password" required><br>
-        <button type="submit">Registrar</button>
-    </form>
+    <header>
+        <h1>Registrarse</h1>
+    </header>
+    <main>
+        <form method="POST">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Registrar</button>
+        </form>
+        <p>¿Ya tienes una cuenta? <a href="login.php" class="button">Inicia sesión aquí</a></p>
+    </main>
 </body>
 </html>
