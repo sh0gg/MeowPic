@@ -9,27 +9,30 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Obtener un gatito aleatorio
-$sql_random = '
-    SELECT 
-        gatitos.nombre, 
-        gatitos.raza, 
-        gatitos.edad, 
-        gatitos.descripcion, 
-        fotos.ruta AS foto,
-        fotos.descripcion AS descripcion_foto,
-        fotos.fecha_subida
-    FROM 
-        gatitos
-    INNER JOIN 
-        fotos 
-    ON 
-        gatitos.id = fotos.gatito_id
-    ORDER BY RAND()
-    LIMIT 1
-';
-$stmt_random = $pdo->query($sql_random);
-$gato_random = $stmt_random->fetch();
+// Obtener un gatito aleatorio si no hay una acción activa
+$gato_random = null;
+if (!isset($_GET['action'])) {
+    $sql_random = '
+        SELECT 
+            gatitos.nombre, 
+            gatitos.raza, 
+            gatitos.edad, 
+            gatitos.descripcion, 
+            fotos.ruta AS foto,
+            fotos.descripcion AS descripcion_foto,
+            fotos.fecha_subida
+        FROM 
+            gatitos
+        INNER JOIN 
+            fotos 
+        ON 
+            gatitos.id = fotos.gatito_id
+        ORDER BY RAND()
+        LIMIT 1
+    ';
+    $stmt_random = $pdo->query($sql_random);
+    $gato_random = $stmt_random->fetch();
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,24 +58,21 @@ $gato_random = $stmt_random->fetch();
             <h2>Explora la galería de gatitos</h2>
             <p>¡Sube y comparte fotos de tus adorables gatitos con la comunidad!</p>
         </section>
+        <?php if ($gato_random): ?>
         <section>
             <h2>Gatito Aleatorio</h2>
-            <?php if ($gato_random): ?>
             <div class="gatito-info">
                 <p>
                     <strong>Nombre:</strong> <?php echo htmlspecialchars($gato_random['nombre']); ?><br>
                     <strong>Raza:</strong> <?php echo htmlspecialchars($gato_random['raza']); ?><br>
                     <strong>Edad:</strong> <?php echo htmlspecialchars($gato_random['edad']); ?> años<br>
                     <strong>Descripción:</strong> <?php echo htmlspecialchars($gato_random['descripcion']); ?><br>
-                    <strong>Descripción de la Foto:</strong> <?php echo htmlspecialchars($gato_random['descripcion_foto']); ?><br>
                     <strong>Fecha de Subida:</strong> <?php echo htmlspecialchars($gato_random['fecha_subida']); ?><br>
                 </p>
                 <img src="<?php echo htmlspecialchars($gato_random['foto']); ?>" alt="Imagen de <?php echo htmlspecialchars($gato_random['nombre']); ?>" width="150">
             </div>
-            <?php else: ?>
-                <p>No hay gatitos registrados aún.</p>
-            <?php endif; ?>
         </section>
+        <?php endif; ?>
         <section>
             <?php
             if (isset($_GET['action'])) {

@@ -4,7 +4,12 @@ require 'cfg/db_config.php';
 $usuario_id = $_SESSION['user_id']; // Obtener el ID del usuario autenticado
 
 // Verificar si el usuario tiene gatitos registrados
-$sql_check = 'SELECT * FROM gatitos WHERE usuario_id = :usuario_id ORDER BY id';
+$sql_check = '
+    SELECT gatitos.*, fotos.ruta AS foto 
+    FROM gatitos 
+    LEFT JOIN fotos ON gatitos.id = fotos.gatito_id 
+    WHERE gatitos.usuario_id = :usuario_id 
+    ORDER BY gatitos.id';
 $stmt = $pdo->prepare($sql_check);
 $stmt->execute([':usuario_id' => $usuario_id]);
 $gatitos = $stmt->fetchAll();
@@ -23,20 +28,45 @@ $gatito = $gatitos[$current_index];
 
 <form method="POST" action="edit_gatitos.php">
     <input type="hidden" name="gatito_id" value="<?php echo htmlspecialchars($gatito['id']); ?>">
-    Nombre: <input type="text" name="nombre" value="<?php echo htmlspecialchars($gatito['nombre']); ?>" required><br>
-    Sexo: 
-    <select name="sexo">
-        <option value="M" <?php echo $gatito['sexo'] == 'M' ? 'selected' : ''; ?>>Macho</option>
-        <option value="F" <?php echo $gatito['sexo'] == 'F' ? 'selected' : ''; ?>>Hembra</option>
-    </select><br>
-    Fecha de nacimiento: <input type="date" name="fecha_nacimiento" value="<?php echo htmlspecialchars($gatito['fecha_nacimiento']); ?>" required><br>
-    Raza: <input type="text" name="raza" value="<?php echo htmlspecialchars($gatito['raza']); ?>"><br>
-    Peso: <input type="number" step="0.01" name="peso" value="<?php echo htmlspecialchars($gatito['peso']); ?>"><br>
-    Descripción: <textarea name="descripcion"><?php echo htmlspecialchars($gatito['descripcion']); ?></textarea><br>
+    <div class="gatito-info">
+        <!-- Mostrar la imagen del gatito -->
+        <?php if (!empty($gatito['foto'])): ?>
+            <img src="<?php echo htmlspecialchars($gatito['foto']); ?>" alt="Imagen de <?php echo htmlspecialchars($gatito['nombre']); ?>" width="150">
+        <?php else: ?>
+            <p>Este gatito no tiene una foto subida.</p>
+        <?php endif; ?>
+    </div>
+    <div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($gatito['nombre']); ?>" required>
+    </div>
+    <div>
+        <label for="sexo">Sexo:</label>
+        <select id="sexo" name="sexo">
+            <option value="M" <?php echo $gatito['sexo'] == 'M' ? 'selected' : ''; ?>>Macho</option>
+            <option value="F" <?php echo $gatito['sexo'] == 'F' ? 'selected' : ''; ?>>Hembra</option>
+        </select>
+    </div>
+    <div>
+        <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?php echo htmlspecialchars($gatito['fecha_nacimiento']); ?>" required>
+    </div>
+    <div>
+        <label for="raza">Raza:</label>
+        <input type="text" id="raza" name="raza" value="<?php echo htmlspecialchars($gatito['raza']); ?>">
+    </div>
+    <div>
+        <label for="peso">Peso:</label>
+        <input type="number" step="0.01" id="peso" name="peso" value="<?php echo htmlspecialchars($gatito['peso']); ?>">
+    </div>
+    <div>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion"><?php echo htmlspecialchars($gatito['descripcion']); ?></textarea>
+    </div>
     <button type="submit">Actualizar</button>
 </form>
 
-<div>
+<div class="nav">
     <!-- Navegación entre gatitos -->
     <?php if ($current_index > 0): ?>
         <a href="edit_gatitos.php?index=<?php echo $current_index - 1; ?>">&#9664; Anterior</a>

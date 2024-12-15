@@ -1,5 +1,10 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
+require 'cfg/db_config.php';
+
+$resultados = []; // Inicializar la variable de resultados para evitar problemas
+$filters_applied = []; // Inicializar los filtros
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['buscar'])) {
     // Verificar si algún campo del formulario fue llenado
     $filters_applied = array_filter($_GET, function ($value) {
         return !empty($value); // Filtrar campos no vacíos
@@ -78,10 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
     <label>Edad mínima:</label> <input type="number" name="edad_min" min="0"><br>
     <label>Edad máxima:</label> <input type="number" name="edad_max" min="0"><br>
     <label>Descripción:</label> <input type="text" name="descripcion"><br>
-    <button type="submit">Buscar</button>
+    <button type="submit" name="buscar" value="1">Buscar</button>
 </form>
 
-<?php if (isset($filters_applied) && !empty($filters_applied)): ?>
+<?php if (isset($_GET['buscar'])): ?>
     <h2>Resultados de la búsqueda:</h2>
     <?php if (!empty($resultados)): ?>
         <ul>
