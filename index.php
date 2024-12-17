@@ -15,23 +15,42 @@ if (!isset($_GET['action'])) {
     $sql_random = '
         SELECT 
             gatitos.nombre, 
-            gatitos.raza, 
-            gatitos.edad, 
+            gatitos.raza,  
             gatitos.descripcion, 
+            gatitos.fecha_nacimiento,
             fotos.ruta AS foto,
             fotos.descripcion AS descripcion_foto,
-            fotos.fecha_subida
+            fotos.fecha_subida,
+            usuarios.nombre AS dueno
         FROM 
             gatitos
         INNER JOIN 
-            fotos 
+            fotos
         ON 
             gatitos.id = fotos.gatito_id
+        INNER JOIN 
+            usuarios
+        ON
+            gatitos.usuario_id = usuarios.id
         ORDER BY RAND()
         LIMIT 1
     ';
     $stmt_random = $pdo->query($sql_random);
     $gato_random = $stmt_random->fetch();
+
+    // Calcular la edad
+    if ($gato_random) {
+        $fecha_nacimiento = new DateTime($gato_random['fecha_nacimiento']);
+        $fecha_actual = new DateTime();
+        $diferencia = $fecha_actual->diff($fecha_nacimiento);
+        
+        // Determinar si mostrar en años o meses
+        if ($diferencia->y < 1) {
+            $gato_random['edad'] = $diferencia->m . ' mes' . ($diferencia->m === 1 ? '' : 'es'); // Singular o plural para meses
+        } else {
+            $gato_random['edad'] = $diferencia->y . ' año' . ($diferencia->y === 1 ? '' : 's'); // Singular o plural para años
+        }
+    }
 }
 ?>
 
@@ -65,9 +84,10 @@ if (!isset($_GET['action'])) {
                 <p>
                     <strong>Nombre:</strong> <?php echo htmlspecialchars($gato_random['nombre']); ?><br>
                     <strong>Raza:</strong> <?php echo htmlspecialchars($gato_random['raza']); ?><br>
-                    <strong>Edad:</strong> <?php echo htmlspecialchars($gato_random['edad']); ?> años<br>
+                    <strong>Edad:</strong> <?php echo htmlspecialchars($gato_random['edad']); ?><br>
                     <strong>Descripción:</strong> <?php echo htmlspecialchars($gato_random['descripcion']); ?><br>
                     <strong>Fecha de Subida:</strong> <?php echo htmlspecialchars($gato_random['fecha_subida']); ?><br>
+                    <strong>Nombre del dueño:</strong> <?php echo htmlspecialchars($gato_random['dueno']); ?><br>
                 </p>
                 <img src="<?php echo htmlspecialchars($gato_random['foto']); ?>" alt="Imagen de <?php echo htmlspecialchars($gato_random['nombre']); ?>" width="150">
             </div>
