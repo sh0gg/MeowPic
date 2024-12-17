@@ -20,13 +20,18 @@ if (!isset($_GET['action'])) {
             gatitos.descripcion, 
             fotos.ruta AS foto,
             fotos.descripcion AS descripcion_foto,
-            fotos.fecha_subida
+            fotos.fecha_subida,
+            usuarios.nombre AS dueno
         FROM 
             gatitos
         INNER JOIN 
-            fotos 
+            fotos
         ON 
             gatitos.id = fotos.gatito_id
+        INNER JOIN 
+            usuarios
+        ON
+            gatitos.usuario_id = usuarios.id
         ORDER BY RAND()
         LIMIT 1
     ';
@@ -68,6 +73,7 @@ if (!isset($_GET['action'])) {
                     <strong>Edad:</strong> <?php echo htmlspecialchars($gato_random['edad']); ?> años<br>
                     <strong>Descripción:</strong> <?php echo htmlspecialchars($gato_random['descripcion']); ?><br>
                     <strong>Fecha de Subida:</strong> <?php echo htmlspecialchars($gato_random['fecha_subida']); ?><br>
+                    <strong>Nombre del dueño:</strong> <?php echo htmlspecialchars($gato_random['dueno']); ?><br>
                 </p>
                 <img src="<?php echo htmlspecialchars($gato_random['foto']); ?>" alt="Imagen de <?php echo htmlspecialchars($gato_random['nombre']); ?>" width="150">
             </div>
