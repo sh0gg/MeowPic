@@ -42,7 +42,7 @@ if (!isset($_GET['action'])) {
     if ($gato_random) {
         $fecha_nacimiento = new DateTime($gato_random['fecha_nacimiento']);
         $fecha_actual = new DateTime();
-        $diferencia = $fecha_actual->diff($fecha_nacimiento);
+        $diferencia = $fecha_actual->diff($fecha_nacimiento); 
 
         // Determinar si mostrar en años o meses
         if ($diferencia->y < 1) {
