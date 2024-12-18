@@ -81,10 +81,10 @@ if (!isset($_GET['action'])) {
         <section>
             <h2>Explora la galería de gatitos</h2>
             <p>¡Sube y comparte fotos de tus adorables gatitos con la comunidad!</p>
+            <h2>Gatito Aleatorio</h2>
         </section>
         <?php if ($gato_random): ?>
             <section>
-                <h2>Gatito Aleatorio</h2>
                 <div class="gatito-info">
                     <p>
                         <strong>Nombre:</strong> <?php echo htmlspecialchars($gato_random['nombre']); ?><br>
