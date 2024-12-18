@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
     <title>Iniciar Sesión</title>
+    <link rel="icon" type="image/png" href="imagenes/favicon.png">
 </head>
 <body>
     <header>
