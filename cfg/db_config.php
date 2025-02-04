@@ -1,5 +1,5 @@
 <?php
-$host = 'database';      // Servidor de la base de datos
+$host = 'localhost';      // Servidor de la base de datos
 $db = 'meowpic';  // Nombre de la base de datos
 $user = 'admin';           // Usuario (ajusta según tu configuración)
 $pass = 'meowPic';               // Contraseña (ajusta según tu configuración)
